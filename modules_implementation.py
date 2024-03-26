@@ -53,6 +53,8 @@ def inrange(vk,vt):
     return 0
 
 def isrelay(v_n,v_m,candidate_rn):
+    print("CCCCCCC : ",candidate_rn)
+    print("CCCCCCC : ",v_n.id)
     for ele in candidate_rn[v_n.id]:
         if(ele[0].id==v_m.id):
             return 1
@@ -71,7 +73,7 @@ def signal_to_noise_ratio(vn,vm,vehicles):#add vehuicles list a sa paramter if s
     nm_channel_gain = path_loss(nmdistance, vn.get_speed_vector())
     denominator=0
     for vk in vehicles:
-        if vk.id!=vn.id:
+        if vk.id!=vn.id and vk.id!=vm.id:
             if inrange(vk,vm):
                 vkpos=vk.get_curr_pos()
                 km_dist=mobility_model(vmpos[0],vkpos[0],vmpos[1],vkpos[1],vmpos[2],vkpos[2])
@@ -124,7 +126,7 @@ def t_direct(v_n,v_m,t_n,candidate_relay,vehicles):
     d_off_n_m=t_n[0]
     r_n_m=get_transmission_rate(v_n,v_m,vehicles)
     c_off_m=t_n[1]
-    f_off_m=v_m.computing_capacity
+    f_off_m=v_m.computation_cycles_per_sec
 
     t_direct_n_m=alpha_n_m*(1-beta_n_m)*((d_off_n_m/r_n_m)+((c_off_m*d_off_n_m)/f_off_m))
     return t_direct_n_m
